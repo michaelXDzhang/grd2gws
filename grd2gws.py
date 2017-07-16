@@ -28,25 +28,27 @@ for filename in glob.glob('.\example\*.grd'):
     rawdata = np.loadtxt(filename)
     inpdata = np.vstack((inpdata, rawdata))
 inpdata = np.delete(inpdata, 0, 0)
-ximax = inpdata.max(0)
-ximin = inpdata.min(0)
-# define grid
-x = np.linspace(ximin[0],ximax[0],nxp)
-y = np.linspace(ximin[1],ximax[1],nyp)
-#x = np.linspace(xmin,xmax,nxp)
-#y = np.linspace(ymin,ymax,nyp)
-[xq,yq] = np.meshgrid(x,y)
+inpdata_min = inpdata.min(0)
+inpdata_max = inpdata.max(0)
 
-#files = glob.glob('.\example\*.grd')
-#rawdata = np.loadtxt('grdtest.grd')
-points = rawdata[:,0:2].copy()
-values = rawdata[:,2].copy()
+# define grid
+#x = np.linspace(min(xmin,inpdata_min[0]),max(xmax,inpdata_max[0]),nxp)
+#y = np.linspace(min(ymin,inpdata_min[1]),max(ymax,inpdata_max[1]),nyp)
+x = np.linspace(xmin,xmax,nxp)
+y = np.linspace(ymin,ymax,nyp)
+[xq,yq] = np.meshgrid(x,y)
+points = inpdata[:,0:2].copy()
+values = inpdata[:,2].copy()
 
 # grid the data
-zq = griddata(points, values, (xq, yq), method='nearest')
+#zq = griddata(points, values, (xq, yq), method='nearest')
+zq = griddata(points, values, (xq, yq), method='linear')
+fill_value = 0
+zq[np.isnan(zq)] = fill_value
 
-CS = plt.contour(xq, yq, zq, 5, linewidths=0.5, colors='k')
-CS = plt.contourf(xq, yq, zq, 5,
+
+CS = plt.contour(x, y, zq, 5, linewidths=0.5, colors='k')
+CS = plt.contourf(x, y, zq, 5,
                   vmax=abs(zq).max(), vmin=-abs(zq).max())
 plt.colorbar()  # draw colorbar
 plt.scatter(points[:,0], points[:,1], marker='o', s=5, zorder=10)
