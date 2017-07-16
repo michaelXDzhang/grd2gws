@@ -7,6 +7,6 @@ Created on Sun Jul 16 15:26:55 2017
 
 import numpy as np
 
-rawdata = np.loadtxt('94201003dsm.grd')
+rawdata = np.loadtxt('grdtest.grd')
 
 
