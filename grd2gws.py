@@ -10,3 +10,4 @@ import numpy as np
 rawdata = np.loadtxt('grdtest.grd')
 
 
+
