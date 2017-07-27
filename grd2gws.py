@@ -5,11 +5,16 @@ Created on Sun Jul 16 15:26:55 2017
 @author: Benjamin Tsai
 """
 import tkinter as tk
+from tkinter import filedialog
 from tkinter import ttk
 import glob as gb
 import numpy as np
 from scipy.interpolate import griddata
 import matplotlib.pyplot as plt
+
+#options = {}
+#options['title'] = "選擇資料夾"
+#print(filedialog.askdirectory(**options))
 
 
 # define parameters
